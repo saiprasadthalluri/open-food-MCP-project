@@ -2,6 +2,7 @@
   // Cache-bust GitHub Pages JSON to avoid stale dashboards.
   const REPORT_URL = '../data/latest_report.json?v=' + Date.now();
   const OPEN_PRICES_API = 'https://prices.openfoodfacts.org/api/v1/prices';
+  const OFF_SEARCH_API = 'https://world.openfoodfacts.org/cgi/search.pl';
 
   const loadingEl = document.getElementById('loading');
   const errorEl = document.getElementById('error');
@@ -195,22 +196,52 @@
     keywordResult.innerHTML = `<div class="loading">Investigating “${escapeHtml(keyword)}”...</div>`;
 
     try {
-      const url = new URL(OPEN_PRICES_API);
-      url.searchParams.set('product_name__like', keyword);
-      url.searchParams.set('size', '50');
-      url.searchParams.set('sort', '-date');
-      const resp = await fetch(url.toString());
-      if (!resp.ok) throw new Error('API failed');
-      const json = await resp.json();
-      const items = json.items || [];
-      const records = items
-        .map((it) => ({
-          price: typeof it.price === 'number' ? it.price : Number(it.price),
-          currency: it.currency || '',
-          country: (it.location && it.location.osm_address_country) || 'Unknown',
-          city: (it.location && it.location.osm_address_city) || 'Unknown',
-        }))
-        .filter((r) => Number.isFinite(r.price));
+      // 1) keyword -> product codes (Open Food Facts)
+      const offUrl = new URL(OFF_SEARCH_API);
+      offUrl.searchParams.set('search_terms', keyword);
+      offUrl.searchParams.set('search_simple', '1');
+      offUrl.searchParams.set('action', 'process');
+      offUrl.searchParams.set('json', '1');
+      offUrl.searchParams.set('page_size', '5');
+      const offResp = await fetch(offUrl.toString());
+      if (!offResp.ok) throw new Error('OFF search failed');
+      const offJson = await offResp.json();
+      const products = offJson.products || [];
+      const codes = Array.from(
+        new Set(
+          products
+            .map((p) => (p.code || '').toString().trim())
+            .filter((c) => c && /^[0-9]+$/.test(c))
+            .slice(0, 5)
+        )
+      );
+
+      if (!codes.length) throw new Error('No products found');
+
+      // 2) fetch Open Prices by product_code for each code
+      const records = [];
+      for (const code of codes) {
+        const pUrl = new URL(OPEN_PRICES_API);
+        pUrl.searchParams.set('product_code', code);
+        pUrl.searchParams.set('size', '10');
+        pUrl.searchParams.set('sort', '-date');
+        const pResp = await fetch(pUrl.toString());
+        if (!pResp.ok) continue;
+        const pJson = await pResp.json();
+        const items = pJson.items || [];
+        for (const it of items) {
+          const price = typeof it.price === 'number' ? it.price : Number(it.price);
+          if (!Number.isFinite(price)) continue;
+          records.push({
+            price,
+            currency: it.currency || '',
+            country: (it.location && it.location.osm_address_country) || 'Unknown',
+            city: (it.location && it.location.osm_address_city) || 'Unknown',
+          });
+          if (records.length >= 50) break;
+        }
+        if (records.length >= 50) break;
+      }
 
       const prices = records.map((r) => r.price);
       const overall = computeRisk(prices);
@@ -231,7 +262,7 @@
       keywordResult.innerHTML = `<div class="commodities-grid">${renderCardHtml(card)}</div>`;
     } catch (e) {
       keywordResult.innerHTML =
-        '<div class="error">Unable to query Open Prices API from the browser. If this persists, use the MCP tool <code>investigate_commodity</code> in Cursor.</div>';
+        '<div class="error">Unable to investigate from the browser (likely CORS or API limits). Use the MCP tool <code>investigate_commodity</code> in Cursor for reliable results.</div>';
     } finally {
       keywordBtn.disabled = false;
     }

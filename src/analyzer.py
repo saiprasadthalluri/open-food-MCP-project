@@ -12,20 +12,59 @@ import requests
 DEFAULT_COMMODITIES = ["rice", "milk", "eggs", "oil", "wheat"]
 
 API_BASE = "https://prices.openfoodfacts.org/api/v1/prices"
+OFF_SEARCH_BASE = "https://world.openfoodfacts.org/cgi/search.pl"
 
 
-def fetch_price_records(commodity: str, size: int = 50) -> list[dict]:
+def search_product_codes(keyword: str, *, limit: int = 5) -> list[str]:
     """
-    Fetch raw price records from Open Prices API for a commodity keyword.
-    Returns a list of normalized records:
-      {price: float, currency: str, country: str, city: str, date: str}
+    Search Open Food Facts for product codes matching a keyword.
+    Returns a list of barcode strings (product codes). Returns [] on error.
+    """
+    try:
+        resp = requests.get(
+            OFF_SEARCH_BASE,
+            params={
+                "search_terms": keyword,
+                "search_simple": 1,
+                "action": "process",
+                "json": 1,
+                "page_size": max(1, min(limit, 50)),
+            },
+            timeout=30,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        products = data.get("products") or []
+        codes: list[str] = []
+        for p in products:
+            code = (p.get("code") or "").strip()
+            if code and code.isdigit():
+                codes.append(code)
+        # de-dupe while preserving order
+        seen = set()
+        out: list[str] = []
+        for c in codes:
+            if c in seen:
+                continue
+            seen.add(c)
+            out.append(c)
+        return out[:limit]
+    except Exception:
+        return []
+
+
+def fetch_price_records_by_code(product_code: str, size: int = 50) -> list[dict]:
+    """
+    Fetch raw price records from Open Prices API for a specific product_code.
+    Normalizes into:
+      {price: float, currency: str, country: str, city: str, date: str, product_code: str}
     Returns [] on error.
     """
     try:
         resp = requests.get(
             API_BASE,
             params={
-                "product_name__like": commodity,
+                "product_code": product_code,
                 "size": size,
                 "sort": "-date",
             },
@@ -60,11 +99,40 @@ def fetch_price_records(commodity: str, size: int = 50) -> list[dict]:
                     "country": country or "Unknown",
                     "city": city or "Unknown",
                     "date": date,
+                    "product_code": product_code,
                 }
             )
         return records
     except Exception:
         return []
+
+
+def fetch_price_records(commodity: str, size: int = 50) -> list[dict]:
+    """
+    Fetch raw price records from Open Prices API for a commodity keyword.
+    Implementation uses a 2-step approach:
+      keyword -> Open Food Facts product codes -> Open Prices by product_code
+
+    This avoids a common issue where `product_name__like` does not filter as expected
+    because many Open Prices records have `product_name: null`.
+
+    Returns a list of normalized records:
+      {price: float, currency: str, country: str, city: str, date: str}
+    Returns [] on error.
+    """
+    codes = search_product_codes(commodity, limit=5)
+    if not codes:
+        return []
+
+    per_code = max(5, size // max(1, len(codes)))
+    out: list[dict] = []
+    for i, code in enumerate(codes):
+        if i > 0:
+            time.sleep(0.5)
+        out.extend(fetch_price_records_by_code(code, size=per_code))
+        if len(out) >= size:
+            break
+    return out[:size]
 
 
 def fetch_prices(commodity: str, size: int = 50) -> tuple[list[float], str]:
