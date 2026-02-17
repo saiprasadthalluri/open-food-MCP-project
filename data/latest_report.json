@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-02-17T07:46:56.409467+00:00",
+  "commodities": [
+    {
+      "name": "rice",
+      "mean_price": 8.58,
+      "risk_score": 1.4176,
+      "status": "CRITICAL",
+      "currency": "EUR",
+      "sample_size": 50
+    },
+    {
+      "name": "milk",
+      "mean_price": 8.58,
+      "risk_score": 1.4176,
+      "status": "CRITICAL",
+      "currency": "EUR",
+      "sample_size": 50
+    },
+    {
+      "name": "eggs",
+      "mean_price": 8.58,
+      "risk_score": 1.4176,
+      "status": "CRITICAL",
+      "currency": "EUR",
+      "sample_size": 50
+    },
+    {
+      "name": "oil",
+      "mean_price": 8.58,
+      "risk_score": 1.4176,
+      "status": "CRITICAL",
+      "currency": "EUR",
+      "sample_size": 50
+    },
+    {
+      "name": "wheat",
+      "mean_price": 8.58,
+      "risk_score": 1.4176,
+      "status": "CRITICAL",
+      "currency": "EUR",
+      "sample_size": 50
+    }
+  ]
+}

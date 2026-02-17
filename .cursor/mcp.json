@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "supply-chain-resilience": {
+      "command": "python",
+      "args": ["src/server.py"],
+      "cwd": "."
+    }
+  }
+}

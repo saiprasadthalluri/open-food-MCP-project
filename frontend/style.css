@@ -1,0 +1,169 @@
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #21262d;
+  --border: #30363d;
+  --text-primary: #e6edf3;
+  --text-muted: #8b949e;
+  --accent-green: #238636;
+  --accent-red: #da3633;
+  --accent-amber: #d29922;
+  --accent-blue: #58a6ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+header {
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.global-status {
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.global-status.stable {
+  background: rgba(35, 134, 54, 0.2);
+  border: 1px solid var(--accent-green);
+  color: #3fb950;
+}
+
+.global-status.warning {
+  background: rgba(210, 153, 34, 0.2);
+  border: 1px solid var(--accent-amber);
+  color: #d4a72c;
+}
+
+.global-status.critical {
+  background: rgba(218, 54, 51, 0.2);
+  border: 1px solid var(--accent-red);
+  color: #f85149;
+}
+
+.global-status.empty {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.loading {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2rem;
+}
+
+.error {
+  padding: 1rem 1.5rem;
+  background: rgba(218, 54, 51, 0.15);
+  border: 1px solid var(--accent-red);
+  border-radius: 8px;
+  color: #f85149;
+}
+
+.commodities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  transition: border-color 0.2s;
+}
+
+.card:hover {
+  border-color: var(--text-muted);
+}
+
+.card h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.card .meta {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.card .price {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.card .risk {
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge.critical {
+  background: rgba(218, 54, 51, 0.25);
+  color: #f85149;
+}
+
+.badge.warning {
+  background: rgba(210, 153, 34, 0.25);
+  color: #d4a72c;
+}
+
+.badge.stable {
+  background: rgba(35, 134, 54, 0.25);
+  color: #3fb950;
+}
+
+.badge.no_data {
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .commodities-grid {
+    grid-template-columns: 1fr;
+  }
+}

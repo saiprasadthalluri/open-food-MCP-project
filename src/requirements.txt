@@ -1,0 +1,4 @@
+requests>=2.28.0
+fastmcp>=2.13,<4
+python-dotenv>=1.0.0
+resend>=0.8.0
