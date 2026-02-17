@@ -1,6 +1,8 @@
 # Supply Chain Resilience Agent
 
-Monitor food price volatility to detect supply chain risks. In supply chain theory, when a logistics network is working well, prices for a standardized commodity (e.g., 1kg rice) should be similar across a region. **Low variance = stable supply chain. High variance = possible hoarding, delivery failure, or local shortages.**
+Monitor food price volatility to detect supply chain risks.
+
+**→ [SETUP_GUIDE.md](SETUP_GUIDE.md)** – Step-by-step for MCP, GitHub Pages, and alerts. In supply chain theory, when a logistics network is working well, prices for a standardized commodity (e.g., 1kg rice) should be similar across a region. **Low variance = stable supply chain. High variance = possible hoarding, delivery failure, or local shortages.**
 
 This project combines:
 
