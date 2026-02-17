@@ -1,5 +1,6 @@
 (function () {
-  const REPORT_URL = '../data/latest_report.json';
+  // Cache-bust GitHub Pages JSON to avoid stale dashboards.
+  const REPORT_URL = '../data/latest_report.json?v=' + Date.now();
   const OPEN_PRICES_API = 'https://prices.openfoodfacts.org/api/v1/prices';
 
   const loadingEl = document.getElementById('loading');
