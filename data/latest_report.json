@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-17T09:30:06.419557+00:00",
+  "timestamp": "2026-02-17T09:42:48.141387+00:00",
   "commodities": [
     {
       "name": "rice",
@@ -7,7 +7,27 @@
       "risk_score": 1.4176,
       "status": "CRITICAL",
       "currency": "EUR",
-      "sample_size": 50
+      "sample_size": 50,
+      "regions": {
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 8.58,
+            "risk_score": 1.4176,
+            "status": "CRITICAL",
+            "sample_size": 50
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Grenoble, France",
+            "mean_price": 8.58,
+            "risk_score": 1.4176,
+            "status": "CRITICAL",
+            "sample_size": 50
+          }
+        ]
+      }
     },
     {
       "name": "milk",
@@ -15,7 +35,27 @@
       "risk_score": 1.4176,
       "status": "CRITICAL",
       "currency": "EUR",
-      "sample_size": 50
+      "sample_size": 50,
+      "regions": {
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 8.58,
+            "risk_score": 1.4176,
+            "status": "CRITICAL",
+            "sample_size": 50
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Grenoble, France",
+            "mean_price": 8.58,
+            "risk_score": 1.4176,
+            "status": "CRITICAL",
+            "sample_size": 50
+          }
+        ]
+      }
     },
     {
       "name": "eggs",
@@ -23,7 +63,27 @@
       "risk_score": 1.4176,
       "status": "CRITICAL",
       "currency": "EUR",
-      "sample_size": 50
+      "sample_size": 50,
+      "regions": {
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 8.58,
+            "risk_score": 1.4176,
+            "status": "CRITICAL",
+            "sample_size": 50
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Grenoble, France",
+            "mean_price": 8.58,
+            "risk_score": 1.4176,
+            "status": "CRITICAL",
+            "sample_size": 50
+          }
+        ]
+      }
     },
     {
       "name": "oil",
@@ -31,7 +91,27 @@
       "risk_score": 1.4176,
       "status": "CRITICAL",
       "currency": "EUR",
-      "sample_size": 50
+      "sample_size": 50,
+      "regions": {
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 8.58,
+            "risk_score": 1.4176,
+            "status": "CRITICAL",
+            "sample_size": 50
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Grenoble, France",
+            "mean_price": 8.58,
+            "risk_score": 1.4176,
+            "status": "CRITICAL",
+            "sample_size": 50
+          }
+        ]
+      }
     },
     {
       "name": "wheat",
@@ -39,7 +119,27 @@
       "risk_score": 1.4176,
       "status": "CRITICAL",
       "currency": "EUR",
-      "sample_size": 50
+      "sample_size": 50,
+      "regions": {
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 8.58,
+            "risk_score": 1.4176,
+            "status": "CRITICAL",
+            "sample_size": 50
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Grenoble, France",
+            "mean_price": 8.58,
+            "risk_score": 1.4176,
+            "status": "CRITICAL",
+            "sample_size": 50
+          }
+        ]
+      }
     }
   ]
 }

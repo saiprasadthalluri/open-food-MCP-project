@@ -36,18 +36,27 @@ If any commodity is CRITICAL, an email is sent to `ALERT_EMAIL`.
 
 ## 3. Push to GitHub
 
-Create a new repository on GitHub, then:
+The remote is already configured. You need to authenticate and push:
 
-```bash
-cd "d:\Projects\open_food_MCP project"
-git add .
-git commit -m "Initial commit: Supply Chain Resilience Agent"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+**Option A: Personal Access Token (recommended)**
+
+1. Create a token: [github.com/settings/tokens/new](https://github.com/settings/tokens/new) (scope: `repo`)
+2. In PowerShell:
+   ```powershell
+   cd "d:\Projects\open_food_MCP project"
+   git push -u origin main
+   ```
+3. When prompted for password, paste your **token** (not your GitHub password)
+
+**Option B: GitHub CLI**
+
+```powershell
+winget install GitHub.cli
+gh auth login
 git push -u origin main
 ```
 
-Replace `YOUR_USERNAME` and `YOUR_REPO_NAME` with your GitHub details.
+**Note:** Create the repo at [github.com/new](https://github.com/new) first if you haven't. Use name `open-food-MCP-project` to match the remote.
 
 ---
 
@@ -73,12 +82,7 @@ To receive email alerts when the daily scan finds CRITICAL commodities:
 |-------------|-------------|
 | `ALERT_EMAIL` | Recipient address (e.g. ops@company.com) |
 | `RESEND_API_KEY` | Your Resend API key |
-
-If you use SMTP instead of Resend, add:
-- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`
-
-For SMS (Twilio):
-- `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER`
+| `RESEND_FROM` | Optional sender address (verified). Defaults to `onboarding@resend.dev` |
 
 ---
 

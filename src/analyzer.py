@@ -4,6 +4,7 @@ Fetches price data from Open Prices API and computes volatility-based risk score
 """
 import statistics
 import time
+from collections import defaultdict
 from typing import Optional
 
 import requests
@@ -13,11 +14,12 @@ DEFAULT_COMMODITIES = ["rice", "milk", "eggs", "oil", "wheat"]
 API_BASE = "https://prices.openfoodfacts.org/api/v1/prices"
 
 
-def fetch_prices(commodity: str, size: int = 50) -> tuple[list[float], str]:
+def fetch_price_records(commodity: str, size: int = 50) -> list[dict]:
     """
-    Fetch price data from Open Prices API for a commodity.
-    Returns (prices, currency). Uses most common currency from items.
-    Returns ([], "") on error.
+    Fetch raw price records from Open Prices API for a commodity keyword.
+    Returns a list of normalized records:
+      {price: float, currency: str, country: str, city: str, date: str}
+    Returns [] on error.
     """
     try:
         resp = requests.get(
@@ -33,31 +35,52 @@ def fetch_prices(commodity: str, size: int = 50) -> tuple[list[float], str]:
         data = resp.json()
         items = data.get("items") or []
         if not items:
-            return [], ""
+            return []
 
-        prices: list[float] = []
-        currencies: list[str] = []
+        records: list[dict] = []
         for item in items:
             price = item.get("price")
-            if price is not None:
-                try:
-                    prices.append(float(price))
-                    cur = item.get("currency") or ""
-                    if cur:
-                        currencies.append(cur)
-                except (TypeError, ValueError):
-                    pass
+            if price is None:
+                continue
+            try:
+                price_f = float(price)
+            except (TypeError, ValueError):
+                continue
 
-        if not prices:
-            return [], ""
+            currency = (item.get("currency") or "").strip()
+            location = item.get("location") or {}
+            country = (location.get("osm_address_country") or "").strip()
+            city = (location.get("osm_address_city") or "").strip()
+            date = (item.get("date") or "").strip()
 
-        currency = ""
-        if currencies:
-            currency = max(set(currencies), key=currencies.count)
-
-        return prices, currency
+            records.append(
+                {
+                    "price": price_f,
+                    "currency": currency,
+                    "country": country or "Unknown",
+                    "city": city or "Unknown",
+                    "date": date,
+                }
+            )
+        return records
     except Exception:
+        return []
+
+
+def fetch_prices(commodity: str, size: int = 50) -> tuple[list[float], str]:
+    """
+    Fetch price data from Open Prices API for a commodity.
+    Returns (prices, currency). Uses most common currency from items.
+    Returns ([], "") on error.
+    """
+    records = fetch_price_records(commodity=commodity, size=size)
+    if not records:
         return [], ""
+
+    prices = [r["price"] for r in records]
+    currencies = [r["currency"] for r in records if r.get("currency")]
+    currency = max(set(currencies), key=currencies.count) if currencies else ""
+    return prices, currency
 
 
 def compute_risk(prices: list[float]) -> tuple[Optional[float], str]:
@@ -85,12 +108,66 @@ def compute_risk(prices: list[float]) -> tuple[Optional[float], str]:
         return None, "NO_DATA"
 
 
+def _region_key_country(record: dict) -> str:
+    return record.get("country") or "Unknown"
+
+
+def _region_key_city(record: dict) -> str:
+    country = record.get("country") or "Unknown"
+    city = record.get("city") or "Unknown"
+    return f"{city}, {country}"
+
+
+def compute_region_risks(
+    records: list[dict], *, level: str = "country", min_samples: int = 5, limit: int = 5
+) -> list[dict]:
+    """
+    Compute volatility (CV) per region and return the most stressed regions.
+    level: 'country' or 'city'
+    """
+    if not records:
+        return []
+
+    key_fn = _region_key_country if level == "country" else _region_key_city
+    groups: dict[str, list[float]] = defaultdict(list)
+    for r in records:
+        try:
+            groups[key_fn(r)].append(float(r["price"]))
+        except Exception:
+            pass
+
+    region_rows: list[dict] = []
+    for region, prices in groups.items():
+        if len(prices) < min_samples:
+            continue
+        risk_score, status = compute_risk(prices)
+        mean_price = round(statistics.mean(prices), 2) if prices else None
+        region_rows.append(
+            {
+                "region": region,
+                "mean_price": mean_price,
+                "risk_score": risk_score,
+                "status": status,
+                "sample_size": len(prices),
+            }
+        )
+
+    # Sort with numeric risks first (descending), NO_DATA/None last
+    region_rows.sort(
+        key=lambda r: (r["risk_score"] is None, -(r["risk_score"] or 0.0), -r["sample_size"])
+    )
+    return region_rows[:limit]
+
+
 def analyze_commodity(commodity: str) -> dict:
     """
     Fetch prices for a commodity and compute risk analysis.
-    Returns dict with name, mean_price, risk_score, status, currency, sample_size.
+    Returns dict with name, mean_price, risk_score, status, currency, sample_size, regions.
     """
-    prices, currency = fetch_prices(commodity)
+    records = fetch_price_records(commodity)
+    prices = [r["price"] for r in records] if records else []
+    currencies = [r["currency"] for r in records if r.get("currency")] if records else []
+    currency = max(set(currencies), key=currencies.count) if currencies else ""
     risk_score, status = compute_risk(prices)
 
     result: dict = {
@@ -100,6 +177,10 @@ def analyze_commodity(commodity: str) -> dict:
         "status": status,
         "currency": currency or "N/A",
         "sample_size": len(prices),
+        "regions": {
+            "by_country": compute_region_risks(records, level="country"),
+            "by_city": compute_region_risks(records, level="city"),
+        },
     }
     if prices:
         result["mean_price"] = round(statistics.mean(prices), 2)

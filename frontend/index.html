@@ -13,6 +13,18 @@
       <p class="subtitle">Price dispersion = risk. Monitoring food commodity volatility.</p>
     </header>
 
+    <section class="investigate">
+      <div class="investigate-header">
+        <h2>Investigate a commodity keyword</h2>
+        <p class="investigate-subtitle">Try any keyword (e.g., “tomato”, “coffee”, “bread”). This runs a live query using the Open Prices API.</p>
+      </div>
+      <div class="investigate-controls">
+        <input id="keyword-input" type="text" placeholder="Enter a commodity keyword…" autocomplete="off" />
+        <button id="keyword-btn" type="button">Investigate</button>
+      </div>
+      <div id="keyword-result" class="keyword-result" hidden></div>
+    </section>
+
     <div id="global-status" class="global-status" aria-live="polite"></div>
     <div id="loading" class="loading">Loading...</div>
     <div id="error" class="error" role="alert" hidden></div>

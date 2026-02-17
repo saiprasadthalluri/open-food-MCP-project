@@ -1,12 +1,9 @@
 """
 Alerts module for Supply Chain Resilience Agent.
-Sends email (Resend/SMTP) and optional SMS (Twilio) when supply chain risks are detected.
+Sends email via Resend when supply chain risks are detected.
 """
 import logging
 import os
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from typing import Any
 
 logging.basicConfig(level=logging.INFO)
@@ -29,15 +26,8 @@ def _load_env() -> None:
 def is_configured() -> dict[str, bool]:
     """Returns {'email': bool, 'sms': bool} for availability check."""
     _load_env()
-    email = bool(os.getenv("RESEND_API_KEY")) or all(
-        os.getenv(k)
-        for k in ("SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD", "SMTP_FROM")
-    )
-    sms = all(
-        os.getenv(k)
-        for k in ("TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_PHONE_NUMBER")
-    )
-    return {"email": email, "sms": sms}
+    email = bool(os.getenv("RESEND_API_KEY"))
+    return {"email": email, "sms": False}
 
 
 def _format_alert_body(commodities: list[dict], severity_filter: str) -> str:
@@ -71,7 +61,9 @@ def _send_email_resend(recipient: str, subject: str, body: str) -> bool:
         import resend
 
         resend.api_key = os.getenv("RESEND_API_KEY")
-        from_addr = os.getenv("SMTP_FROM") or "alerts@resend.dev"
+        # Resend requires a verified 'from' domain for production usage.
+        # For quick starts, many accounts can use onboarding@resend.dev.
+        from_addr = os.getenv("RESEND_FROM") or "onboarding@resend.dev"
         params = {
             "from": from_addr,
             "to": [recipient],
@@ -81,51 +73,8 @@ def _send_email_resend(recipient: str, subject: str, body: str) -> bool:
         resend.Emails.send(params)
         return True
     except Exception as e:
-        logger.exception("Resend email failed: %s", e)
-        return False
-
-
-def _send_email_smtp(recipient: str, subject: str, body: str) -> bool:
-    """Send email via SMTP."""
-    try:
-        host = os.getenv("SMTP_HOST", "")
-        port = int(os.getenv("SMTP_PORT", "587"))
-        user = os.getenv("SMTP_USER", "")
-        password = os.getenv("SMTP_PASSWORD", "")
-        from_addr = os.getenv("SMTP_FROM", user)
-        msg = MIMEMultipart("alternative")
-        msg["Subject"] = subject
-        msg["From"] = from_addr
-        msg["To"] = recipient
-        msg.attach(MIMEText(body, "plain"))
-        with smtplib.SMTP(host, port) as server:
-            server.starttls()
-            server.login(user, password)
-            server.sendmail(from_addr, [recipient], msg.as_string())
-        return True
-    except Exception as e:
-        logger.exception("SMTP email failed: %s", e)
-        return False
-
-
-def _send_sms_twilio(recipient: str, body: str) -> bool:
-    """Send SMS via Twilio."""
-    try:
-        from twilio.rest import Client
-
-        sid = os.getenv("TWILIO_ACCOUNT_SID")
-        token = os.getenv("TWILIO_AUTH_TOKEN")
-        from_num = os.getenv("TWILIO_PHONE_NUMBER")
-        if not all((sid, token, from_num)):
-            return False
-        client = Client(sid, token)
-        client.messages.create(body=body[:1600], from_=from_num, to=recipient)
-        return True
-    except ImportError:
-        logger.warning("twilio package not installed")
-        return False
-    except Exception as e:
-        logger.exception("Twilio SMS failed: %s", e)
+        # Avoid noisy stack traces for common configuration issues (invalid key, unverified from, etc.).
+        logger.error("Resend email failed: %s", e)
         return False
 
 
@@ -153,15 +102,12 @@ def send_report_alert(
     cfg = is_configured()
 
     if cfg["email"] and recipient_email:
-        if os.getenv("RESEND_API_KEY"):
-            result["email"] = _send_email_resend(recipient_email, subject, body)
-        else:
-            result["email"] = _send_email_smtp(recipient_email, subject, body)
+        result["email"] = _send_email_resend(recipient_email, subject, body)
 
-    if cfg["sms"] and recipient_phone:
-        result["sms"] = _send_sms_twilio(recipient_phone, body)
+    # SMS is intentionally disabled in this build.
+    result["sms"] = False
 
-    if not cfg["email"] and not cfg["sms"]:
-        result["error"] = "Email/SMS not configured. Set RESEND_API_KEY or SMTP_* env vars."
+    if not cfg["email"]:
+        result["error"] = "Email not configured. Set RESEND_API_KEY (and optionally RESEND_FROM)."
 
     return result

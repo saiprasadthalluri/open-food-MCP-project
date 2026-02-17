@@ -9,7 +9,7 @@ This project combines:
 - **MCP server** – LLM-driven investigation and on-demand alerts via Cursor
 - **Daily batch scan** – Automated analysis and report generation via GitHub Actions
 - **Static dashboard** – Dark-mode UI on GitHub Pages
-- **Alerts** – Email (Resend/SMTP) and optional SMS (Twilio) when commodities hit CRITICAL status
+- **Alerts** – Email via Resend when commodities hit CRITICAL status
 
 ---
 
@@ -50,20 +50,18 @@ Use the Supply Chain Resilience tools from Cursor or another MCP client.
 
 ## Alerts Setup
 
-Configure email and optional SMS for automated (batch) and on-demand (MCP) alerts.
+Configure email (Resend) for automated (batch) and on-demand (MCP) alerts.
 
 1. **Copy the template:**
    ```bash
    cp .env.example .env
    ```
 
-2. **Email – choose one:**
-   - **Resend:** Set `RESEND_API_KEY` (free tier: 100 emails/day)
-   - **SMTP:** Set `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` (works with Gmail, Outlook, etc.)
+2. **Email (Resend):**
+   - Set `RESEND_API_KEY` (free tier: 100 emails/day)
+   - Optional: set `RESEND_FROM` (verified sender). Defaults to `onboarding@resend.dev`.
 
-3. **SMS (optional):** Set `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER`
-
-4. **Batch alerts:** Set `ALERT_EMAIL` to receive automated emails when any commodity is CRITICAL.
+3. **Batch alerts:** Set `ALERT_EMAIL` to receive automated emails when any commodity is CRITICAL.
 
 **GitHub Actions:** Add these as repository secrets (Settings → Secrets and variables → Actions). The daily workflow will use them when sending alerts.
 

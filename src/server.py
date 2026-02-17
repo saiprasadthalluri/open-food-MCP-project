@@ -82,7 +82,7 @@ def send_supply_chain_alert(
     cfg = is_configured()
     if not cfg["email"] and not cfg["sms"]:
         return {
-            "error": "Email/SMS not configured. Set RESEND_API_KEY or SMTP_* env vars."
+            "error": "Email not configured. Set RESEND_API_KEY (and optionally RESEND_FROM)."
         }
 
     if commodity:
