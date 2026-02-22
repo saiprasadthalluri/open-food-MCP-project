@@ -1,24 +1,32 @@
 {
-  "timestamp": "2026-02-21T08:28:13.314160+00:00",
+  "timestamp": "2026-02-22T08:30:57.474195+00:00",
   "commodities": [
     {
       "name": "rice",
-      "mean_price": 3.95,
-      "risk_score": 0.2705,
-      "status": "STABLE",
+      "mean_price": 3.82,
+      "risk_score": 0.3047,
+      "status": "WARNING",
       "currency": "EUR",
-      "sample_size": 17,
+      "sample_size": 18,
       "regions": {
         "by_country": [
           {
             "region": "France",
-            "mean_price": 3.95,
-            "risk_score": 0.2705,
-            "status": "STABLE",
-            "sample_size": 17
+            "mean_price": 3.82,
+            "risk_score": 0.3047,
+            "status": "WARNING",
+            "sample_size": 18
           }
         ],
-        "by_city": []
+        "by_city": [
+          {
+            "region": "Clichy, France",
+            "mean_price": 4.12,
+            "risk_score": 0.3298,
+            "status": "WARNING",
+            "sample_size": 5
+          }
+        ]
       }
     },
     {
@@ -43,30 +51,14 @@
     },
     {
       "name": "eggs",
-      "mean_price": 2.69,
-      "risk_score": 0.4495,
-      "status": "WARNING",
-      "currency": "EUR",
-      "sample_size": 41,
+      "mean_price": null,
+      "risk_score": null,
+      "status": "NO_DATA",
+      "currency": "N/A",
+      "sample_size": 0,
       "regions": {
-        "by_country": [
-          {
-            "region": "France",
-            "mean_price": 2.69,
-            "risk_score": 0.4495,
-            "status": "WARNING",
-            "sample_size": 41
-          }
-        ],
-        "by_city": [
-          {
-            "region": "Grenoble, France",
-            "mean_price": 2.67,
-            "risk_score": 0.5512,
-            "status": "CRITICAL",
-            "sample_size": 13
-          }
-        ]
+        "by_country": [],
+        "by_city": []
       }
     },
     {
