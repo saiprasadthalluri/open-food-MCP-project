@@ -1,52 +1,115 @@
 {
-  "timestamp": "2026-02-23T08:48:33.248322+00:00",
+  "timestamp": "2026-02-24T08:44:39.421719+00:00",
   "commodities": [
     {
       "name": "rice",
-      "mean_price": null,
-      "risk_score": null,
-      "status": "NO_DATA",
-      "currency": "N/A",
-      "sample_size": 0,
+      "mean_price": 3.79,
+      "risk_score": 0.3017,
+      "status": "WARNING",
+      "currency": "EUR",
+      "sample_size": 19,
       "regions": {
-        "by_country": [],
-        "by_city": []
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 3.79,
+            "risk_score": 0.3017,
+            "status": "WARNING",
+            "sample_size": 19
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Clichy, France",
+            "mean_price": 4.12,
+            "risk_score": 0.3298,
+            "status": "WARNING",
+            "sample_size": 5
+          }
+        ]
       }
     },
     {
       "name": "milk",
-      "mean_price": null,
-      "risk_score": null,
-      "status": "NO_DATA",
-      "currency": "N/A",
-      "sample_size": 0,
+      "mean_price": 16.16,
+      "risk_score": 1.1153,
+      "status": "CRITICAL",
+      "currency": "MAD",
+      "sample_size": 5,
       "regions": {
-        "by_country": [],
+        "by_country": [
+          {
+            "region": "Maroc \u2d4d\u2d4e\u2d56\u2d54\u2d49\u2d31 \u0627\u0644\u0645\u063a\u0631\u0628",
+            "mean_price": 16.16,
+            "risk_score": 1.1153,
+            "status": "CRITICAL",
+            "sample_size": 5
+          }
+        ],
         "by_city": []
       }
     },
     {
       "name": "eggs",
-      "mean_price": null,
-      "risk_score": null,
-      "status": "NO_DATA",
-      "currency": "N/A",
-      "sample_size": 0,
+      "mean_price": 2.69,
+      "risk_score": 0.4495,
+      "status": "WARNING",
+      "currency": "EUR",
+      "sample_size": 41,
       "regions": {
-        "by_country": [],
-        "by_city": []
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 2.69,
+            "risk_score": 0.4495,
+            "status": "WARNING",
+            "sample_size": 41
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Grenoble, France",
+            "mean_price": 2.67,
+            "risk_score": 0.5512,
+            "status": "CRITICAL",
+            "sample_size": 13
+          }
+        ]
       }
     },
     {
       "name": "oil",
-      "mean_price": null,
-      "risk_score": null,
-      "status": "NO_DATA",
-      "currency": "N/A",
-      "sample_size": 0,
+      "mean_price": 3.06,
+      "risk_score": 0.268,
+      "status": "STABLE",
+      "currency": "EUR",
+      "sample_size": 50,
       "regions": {
-        "by_country": [],
-        "by_city": []
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 3.06,
+            "risk_score": 0.268,
+            "status": "STABLE",
+            "sample_size": 50
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Grenoble, France",
+            "mean_price": 3.12,
+            "risk_score": 0.2868,
+            "status": "STABLE",
+            "sample_size": 28
+          },
+          {
+            "region": "Mont\u00e9limar, France",
+            "mean_price": 3.2,
+            "risk_score": 0.0822,
+            "status": "STABLE",
+            "sample_size": 5
+          }
+        ]
       }
     },
     {
