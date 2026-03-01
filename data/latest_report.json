@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-28T08:27:44.025028+00:00",
+  "timestamp": "2026-03-01T08:30:22.158222+00:00",
   "commodities": [
     {
       "name": "rice",
@@ -79,72 +79,26 @@
     },
     {
       "name": "oil",
-      "mean_price": 3.06,
-      "risk_score": 0.268,
-      "status": "STABLE",
-      "currency": "EUR",
-      "sample_size": 50,
+      "mean_price": null,
+      "risk_score": null,
+      "status": "NO_DATA",
+      "currency": "N/A",
+      "sample_size": 0,
       "regions": {
-        "by_country": [
-          {
-            "region": "France",
-            "mean_price": 3.06,
-            "risk_score": 0.268,
-            "status": "STABLE",
-            "sample_size": 50
-          }
-        ],
-        "by_city": [
-          {
-            "region": "Grenoble, France",
-            "mean_price": 3.12,
-            "risk_score": 0.2868,
-            "status": "STABLE",
-            "sample_size": 28
-          },
-          {
-            "region": "Mont\u00e9limar, France",
-            "mean_price": 3.2,
-            "risk_score": 0.0822,
-            "status": "STABLE",
-            "sample_size": 5
-          }
-        ]
+        "by_country": [],
+        "by_city": []
       }
     },
     {
       "name": "wheat",
-      "mean_price": 4.73,
-      "risk_score": 3.3812,
-      "status": "CRITICAL",
-      "currency": "EUR",
-      "sample_size": 50,
+      "mean_price": null,
+      "risk_score": null,
+      "status": "NO_DATA",
+      "currency": "N/A",
+      "sample_size": 0,
       "regions": {
-        "by_country": [
-          {
-            "region": "France",
-            "mean_price": 1.81,
-            "risk_score": 0.471,
-            "status": "WARNING",
-            "sample_size": 46
-          }
-        ],
-        "by_city": [
-          {
-            "region": "Paris, France",
-            "mean_price": 2.07,
-            "risk_score": 0.6534,
-            "status": "CRITICAL",
-            "sample_size": 8
-          },
-          {
-            "region": "Grenoble, France",
-            "mean_price": 1.58,
-            "risk_score": 0.3872,
-            "status": "WARNING",
-            "sample_size": 7
-          }
-        ]
+        "by_country": [],
+        "by_city": []
       }
     }
   ]
