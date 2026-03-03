@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-02T08:43:31.121523+00:00",
+  "timestamp": "2026-03-03T08:39:23.712357+00:00",
   "commodities": [
     {
       "name": "rice",
@@ -31,13 +31,21 @@
     },
     {
       "name": "milk",
-      "mean_price": null,
-      "risk_score": null,
-      "status": "NO_DATA",
-      "currency": "N/A",
-      "sample_size": 0,
+      "mean_price": 16.16,
+      "risk_score": 1.1153,
+      "status": "CRITICAL",
+      "currency": "MAD",
+      "sample_size": 5,
       "regions": {
-        "by_country": [],
+        "by_country": [
+          {
+            "region": "Maroc \u2d4d\u2d4e\u2d56\u2d54\u2d49\u2d31 \u0627\u0644\u0645\u063a\u0631\u0628",
+            "mean_price": 16.16,
+            "risk_score": 1.1153,
+            "status": "CRITICAL",
+            "sample_size": 5
+          }
+        ],
         "by_city": []
       }
     },
