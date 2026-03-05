@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-04T08:38:03.701777+00:00",
+  "timestamp": "2026-03-05T08:40:00.208564+00:00",
   "commodities": [
     {
       "name": "rice",
@@ -51,69 +51,6 @@
     },
     {
       "name": "eggs",
-      "mean_price": 2.69,
-      "risk_score": 0.4495,
-      "status": "WARNING",
-      "currency": "EUR",
-      "sample_size": 41,
-      "regions": {
-        "by_country": [
-          {
-            "region": "France",
-            "mean_price": 2.69,
-            "risk_score": 0.4495,
-            "status": "WARNING",
-            "sample_size": 41
-          }
-        ],
-        "by_city": [
-          {
-            "region": "Grenoble, France",
-            "mean_price": 2.67,
-            "risk_score": 0.5512,
-            "status": "CRITICAL",
-            "sample_size": 13
-          }
-        ]
-      }
-    },
-    {
-      "name": "oil",
-      "mean_price": 2.78,
-      "risk_score": 0.307,
-      "status": "WARNING",
-      "currency": "EUR",
-      "sample_size": 50,
-      "regions": {
-        "by_country": [
-          {
-            "region": "France",
-            "mean_price": 2.78,
-            "risk_score": 0.307,
-            "status": "WARNING",
-            "sample_size": 50
-          }
-        ],
-        "by_city": [
-          {
-            "region": "Grenoble, France",
-            "mean_price": 2.81,
-            "risk_score": 0.3532,
-            "status": "WARNING",
-            "sample_size": 22
-          },
-          {
-            "region": "Mont\u00e9limar, France",
-            "mean_price": 3.2,
-            "risk_score": 0.0822,
-            "status": "STABLE",
-            "sample_size": 5
-          }
-        ]
-      }
-    },
-    {
-      "name": "wheat",
       "mean_price": null,
       "risk_score": null,
       "status": "NO_DATA",
@@ -122,6 +59,53 @@
       "regions": {
         "by_country": [],
         "by_city": []
+      }
+    },
+    {
+      "name": "oil",
+      "mean_price": null,
+      "risk_score": null,
+      "status": "NO_DATA",
+      "currency": "N/A",
+      "sample_size": 0,
+      "regions": {
+        "by_country": [],
+        "by_city": []
+      }
+    },
+    {
+      "name": "wheat",
+      "mean_price": 4.73,
+      "risk_score": 3.3812,
+      "status": "CRITICAL",
+      "currency": "EUR",
+      "sample_size": 50,
+      "regions": {
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 1.81,
+            "risk_score": 0.471,
+            "status": "WARNING",
+            "sample_size": 46
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Paris, France",
+            "mean_price": 2.07,
+            "risk_score": 0.6534,
+            "status": "CRITICAL",
+            "sample_size": 8
+          },
+          {
+            "region": "Grenoble, France",
+            "mean_price": 1.58,
+            "risk_score": 0.3872,
+            "status": "WARNING",
+            "sample_size": 7
+          }
+        ]
       }
     }
   ]
