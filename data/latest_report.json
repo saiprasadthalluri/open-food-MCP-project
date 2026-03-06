@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-05T08:40:00.208564+00:00",
+  "timestamp": "2026-03-06T08:36:42.386720+00:00",
   "commodities": [
     {
       "name": "rice",
@@ -51,14 +51,30 @@
     },
     {
       "name": "eggs",
-      "mean_price": null,
-      "risk_score": null,
-      "status": "NO_DATA",
-      "currency": "N/A",
-      "sample_size": 0,
+      "mean_price": 2.69,
+      "risk_score": 0.4495,
+      "status": "WARNING",
+      "currency": "EUR",
+      "sample_size": 41,
       "regions": {
-        "by_country": [],
-        "by_city": []
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 2.69,
+            "risk_score": 0.4495,
+            "status": "WARNING",
+            "sample_size": 41
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Grenoble, France",
+            "mean_price": 2.67,
+            "risk_score": 0.5512,
+            "status": "CRITICAL",
+            "sample_size": 13
+          }
+        ]
       }
     },
     {
