@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-06T08:36:42.386720+00:00",
+  "timestamp": "2026-03-07T08:30:09.094086+00:00",
   "commodities": [
     {
       "name": "rice",
@@ -79,6 +79,41 @@
     },
     {
       "name": "oil",
+      "mean_price": 2.78,
+      "risk_score": 0.307,
+      "status": "WARNING",
+      "currency": "EUR",
+      "sample_size": 50,
+      "regions": {
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 2.78,
+            "risk_score": 0.307,
+            "status": "WARNING",
+            "sample_size": 50
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Grenoble, France",
+            "mean_price": 2.81,
+            "risk_score": 0.3532,
+            "status": "WARNING",
+            "sample_size": 22
+          },
+          {
+            "region": "Mont\u00e9limar, France",
+            "mean_price": 3.2,
+            "risk_score": 0.0822,
+            "status": "STABLE",
+            "sample_size": 5
+          }
+        ]
+      }
+    },
+    {
+      "name": "wheat",
       "mean_price": null,
       "risk_score": null,
       "status": "NO_DATA",
@@ -87,41 +122,6 @@
       "regions": {
         "by_country": [],
         "by_city": []
-      }
-    },
-    {
-      "name": "wheat",
-      "mean_price": 4.73,
-      "risk_score": 3.3812,
-      "status": "CRITICAL",
-      "currency": "EUR",
-      "sample_size": 50,
-      "regions": {
-        "by_country": [
-          {
-            "region": "France",
-            "mean_price": 1.81,
-            "risk_score": 0.471,
-            "status": "WARNING",
-            "sample_size": 46
-          }
-        ],
-        "by_city": [
-          {
-            "region": "Paris, France",
-            "mean_price": 2.07,
-            "risk_score": 0.6534,
-            "status": "CRITICAL",
-            "sample_size": 8
-          },
-          {
-            "region": "Grenoble, France",
-            "mean_price": 1.58,
-            "risk_score": 0.3872,
-            "status": "WARNING",
-            "sample_size": 7
-          }
-        ]
       }
     }
   ]
