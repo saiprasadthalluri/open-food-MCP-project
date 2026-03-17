@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-16T08:56:07.209892+00:00",
+  "timestamp": "2026-03-17T08:53:01.271163+00:00",
   "commodities": [
     {
       "name": "rice",
@@ -79,14 +79,37 @@
     },
     {
       "name": "oil",
-      "mean_price": null,
-      "risk_score": null,
-      "status": "NO_DATA",
-      "currency": "N/A",
-      "sample_size": 0,
+      "mean_price": 2.78,
+      "risk_score": 0.307,
+      "status": "WARNING",
+      "currency": "EUR",
+      "sample_size": 50,
       "regions": {
-        "by_country": [],
-        "by_city": []
+        "by_country": [
+          {
+            "region": "France",
+            "mean_price": 2.78,
+            "risk_score": 0.307,
+            "status": "WARNING",
+            "sample_size": 50
+          }
+        ],
+        "by_city": [
+          {
+            "region": "Grenoble, France",
+            "mean_price": 2.81,
+            "risk_score": 0.3532,
+            "status": "WARNING",
+            "sample_size": 22
+          },
+          {
+            "region": "Mont\u00e9limar, France",
+            "mean_price": 3.2,
+            "risk_score": 0.0822,
+            "status": "STABLE",
+            "sample_size": 5
+          }
+        ]
       }
     },
     {
